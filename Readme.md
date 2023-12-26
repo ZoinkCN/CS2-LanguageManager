@@ -16,8 +16,59 @@ Add reference of "LanguageManagerLib.dll" to your plugin project.
 
 ## Register your plugin
 
+Use LanguageEntryManager.Register(mycoolpluginID, defaultLanguageCode)  in yor Plugin.Awake() method to register you plugin to LanguageManager.
 
+## Language files 
 
-# Full Examples:
+Add language files in "Languages" directory, witch looks like:
+```
+MyCoolPlugin
+│  MyCoolPlugin.dll
+│
+└─Languages
+        mycoolpluginID.en-US.json
+        mycoolpluginID.zh-HANS.json
+        ...
+```
+"mycoolpluginID" is an unique id of your plugin, you can name it your self but keep the same;
 
-- [Vehicle Counter Demonstration plugin](https://github.com/Captain-Of-Coit/cs2-vehicle-counter)
+A language file content would like this:
+```
+{
+    "key1": "hello",
+    "key2": "world"
+    ...
+}
+```
+
+## In UI
+
+Use react to load string the same as data.
+
+If you are modding with Hook UI, you can do like this:
+```
+const [myString, setMyString] = react.useState('');
+
+useDataUpdate(react, 'mycoolpluginID.key1', setMyString);
+```
+
+If not, do like this:
+```
+const [myString, setMyString] = react.useState('');
+
+react.useEffect(() => {
+    const event = "mycoolpluginID.key1"
+    const updateEvent = event + ".update"
+    const subscribeEvent = event + ".subscribe"
+    const unsubscribeEvent = event + ".unsubscribe"
+
+    var sub = engine.on(updateEvent, (data) => {
+        setMyString(data)
+    })
+    engine.trigger(subscribeEvent)
+    return () => {
+        engine.trigger(unsubscribeEvent)
+        sub.clear();
+    };
+}, [])
+```
