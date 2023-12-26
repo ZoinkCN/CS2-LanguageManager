@@ -2,7 +2,6 @@
 using Game.SceneFlow;
 using Game.UI;
 using LanguageManagerLib;
-using System;
 
 namespace LanguageManager.Systems
 {

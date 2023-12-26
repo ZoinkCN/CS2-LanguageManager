@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.Json;
 
 namespace LanguageManagerLib

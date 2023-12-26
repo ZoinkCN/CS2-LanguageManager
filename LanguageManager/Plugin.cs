@@ -1,10 +1,12 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using static Game.Rendering.Debug.RenderPrefabRenderer;
+
+#if BEPINEX_V6
+using BepInEx.Unity.Mono;
+#endif
 
 namespace LanguageManager
 {

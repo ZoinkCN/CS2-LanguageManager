@@ -1,9 +1,6 @@
-﻿using Game.Common;
-using Game;
+﻿using Game;
+using Game.Common;
 using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using LanguageManager.Systems;
 
 namespace LanguageManager.Patches
