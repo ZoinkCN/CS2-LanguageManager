@@ -11,35 +11,23 @@ namespace LanguageManager.Systems
         protected override void OnCreate()
         {
             base.OnCreate();
+            LanguageEntryManager.LangCode = GameManager.instance.localizationManager.activeLocaleId;
 
-            try
+            var plugins = LanguageEntryManager.RegisteredPlugins.Values;
+            foreach (var plugin in plugins)
             {
-                LanguageEntryManager.LangCode = GameManager.instance.localizationManager.activeLocaleId;
-
-                Plugin.Log.LogMessage(LanguageEntryManager.LangCode);
-                var plugins = LanguageEntryManager.RegisteredPlugins.Values;
-                foreach (var plugin in plugins)
+                string id = plugin.PluginID;
+                foreach (var key in plugin.Entries.Keys)
                 {
-                    foreach (var entry in plugin.Entries)
-                    {
-                        string id = plugin.PluginID;
-                        string? key = entry.Key;
-                        if (string.IsNullOrEmpty(key)) continue;
-                        AddUpdateBinding(new GetterValueBinding<string>(id, key, () => entry.Value));
-                        Plugin.Log.LogMessage($"{id}.{key}: {entry.Value}");
-                    }
+                    AddUpdateBinding(new GetterValueBinding<string>(id, key, () => plugin.Entries[key]));
                 }
-            }
-            catch (Exception e)
-            {
-                Plugin.Log.LogError(e.Message);
+                Plugin.Log.LogMessage($"Plugin {id} registered");
             }
         }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
-
             LanguageEntryManager.LangCode = GameManager.instance.localizationManager.activeLocaleId;
         }
     }
