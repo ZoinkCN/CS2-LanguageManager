@@ -1,4 +1,4 @@
-﻿# HookUI
+﻿# Language Manager
 
 > Library for plugin authors to easily manage plugin localizations.
 
