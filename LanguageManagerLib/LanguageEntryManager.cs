@@ -8,16 +8,18 @@ using System.Text.Json;
 
 namespace LanguageManagerLib
 {
-    public class Manager
+    public static class LanguageEntryManager
     {
-        private class LanguageData
+        public class LanguageData
         {
-            public LanguageData(string dir, string defaultCode)
+            public LanguageData(string pluginID, string dir, string defaultCode)
             {
+                PluginID = pluginID;
                 RootDir = dir;
                 DefaultCode = defaultCode;
             }
 
+            public string PluginID { get; }
             public string DefaultCode { get; }
             public string RootDir { get; }
             public string LangCode { get; private set; } = default!;
@@ -26,10 +28,10 @@ namespace LanguageManagerLib
             public void LoadLanguage(string langCode)
             {
                 LangCode = langCode;
-                string filePath = Path.Combine(RootDir, $"{LangCode}.json");
+                string filePath = Path.Combine(RootDir, $"{PluginID}.{LangCode}.json");
                 if (!File.Exists(filePath))
                 {
-                    string defaultFilePath = Path.Combine(RootDir, $"{DefaultCode}.json");
+                    string defaultFilePath = Path.Combine(RootDir, $"{PluginID}.{DefaultCode}.json");
                     if (!File.Exists(defaultFilePath))
                         throw new FileNotFoundException(defaultFilePath);
                     filePath = defaultFilePath;
@@ -50,9 +52,8 @@ namespace LanguageManagerLib
             }
         }
 
-        private static readonly object Lock = new object();
-
-        private static readonly Dictionary<string, LanguageData> RegisteredPlugins = new Dictionary<string, LanguageData>();
+        private static Dictionary<string, LanguageData> registeredPlugins = new Dictionary<string, LanguageData>();
+        public static ReadOnlyDictionary<string, LanguageData> RegisteredPlugins => new ReadOnlyDictionary<string, LanguageData>(registeredPlugins);
         private static string langCode = default!;
 
         public static string LangCode
@@ -63,13 +64,14 @@ namespace LanguageManagerLib
                 if (langCode != value)
                 {
                     langCode = value;
-                    foreach (var plugin in RegisteredPlugins.Values)
+                    foreach (var plugin in registeredPlugins.Values)
                     {
                         plugin.LoadLanguage(langCode);
                     }
                 }
             }
         }
+
         public static void Register(string pluginID, string defaultLangCode, [CallerFilePath] string? callerFilePath = null)
         {
             if (callerFilePath == null) { return; }
@@ -79,26 +81,20 @@ namespace LanguageManagerLib
             {
                 Directory.CreateDirectory(languageDir);
             }
-            lock (Lock)
-            {
-                RegisteredPlugins.Add(pluginID, new LanguageData(languageDir, defaultLangCode));
-            }
+            registeredPlugins.Add(pluginID, new LanguageData(pluginID, languageDir, defaultLangCode));
         }
 
         public static void Unregister(string pluginID)
         {
-            if (RegisteredPlugins.ContainsKey(pluginID))
+            if (registeredPlugins.ContainsKey(pluginID))
             {
-                lock (Lock)
-                {
-                    RegisteredPlugins.Remove(pluginID);
-                }
+                registeredPlugins.Remove(pluginID);
             }
         }
 
         public static bool CheckRegister(string pluginID)
         {
-            return RegisteredPlugins.ContainsKey(pluginID);
+            return registeredPlugins.ContainsKey(pluginID);
         }
     }
 }

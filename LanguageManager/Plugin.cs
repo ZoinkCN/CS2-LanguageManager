@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Logging;
 using HarmonyLib;
 using System;
 using System.IO;
@@ -10,6 +11,7 @@ namespace LanguageManager
     [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
     {
+        public static ManualLogSource Log { get; } = BepInEx.Logging.Logger.CreateLogSource(MyPluginInfo.PLUGIN_NAME);
         private void Awake()
         {
             var harmony = new Harmony(MyPluginInfo.PLUGIN_NAME);
