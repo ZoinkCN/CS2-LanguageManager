@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
@@ -71,8 +72,9 @@ namespace LanguageManagerLib
             }
         }
 
-        public static void Register(string pluginID, string defaultLangCode, [CallerFilePath] string? callerFilePath = null)
+        public static void Register(string pluginID, string defaultLangCode)
         {
+            string callerFilePath = Assembly.GetCallingAssembly().Location;
             if (callerFilePath == null) { return; }
             string dirName = Path.GetDirectoryName(callerFilePath);
             string languageDir = Path.Combine(dirName, "Languages");
