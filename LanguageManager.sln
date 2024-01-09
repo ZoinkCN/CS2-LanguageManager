@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageManager", "Language
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LanguageManagerLib", "LanguageManagerLib\LanguageManagerLib.csproj", "{AE4F4C1D-D584-46E2-A318-563E26E7999C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigHelperLib", "ConfigHelperLib\ConfigHelperLib.csproj", "{BF23E2AE-0557-4503-9B9C-4A3E6E641C9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AE4F4C1D-D584-46E2-A318-563E26E7999C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE4F4C1D-D584-46E2-A318-563E26E7999C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE4F4C1D-D584-46E2-A318-563E26E7999C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF23E2AE-0557-4503-9B9C-4A3E6E641C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF23E2AE-0557-4503-9B9C-4A3E6E641C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF23E2AE-0557-4503-9B9C-4A3E6E641C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF23E2AE-0557-4503-9B9C-4A3E6E641C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

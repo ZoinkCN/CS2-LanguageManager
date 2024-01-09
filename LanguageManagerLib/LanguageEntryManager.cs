@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Colossal.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 
 namespace LanguageManagerLib
 {
@@ -23,7 +21,7 @@ namespace LanguageManagerLib
             public string DefaultCode { get; }
             public string RootDir { get; }
             public string LangCode { get; private set; } = default!;
-            public ReadOnlyDictionary<string, string> Entries { get; private set; }
+            public Dictionary<string, string> Entries { get; private set; }
 
             public void LoadLanguage(string langCode)
             {
@@ -36,19 +34,10 @@ namespace LanguageManagerLib
                         throw new FileNotFoundException(defaultFilePath);
                     filePath = defaultFilePath;
                 }
-                using FileStream languageStream = File.OpenRead(filePath);
-                using StreamReader languageStreamReader = new StreamReader(languageStream);
-                string languageContent = languageStreamReader.ReadToEnd();
 
-                try
-                {
-                    JsonDocument doc = JsonDocument.Parse(languageContent);
-                    Entries = new ReadOnlyDictionary<string, string>(doc.RootElement.Deserialize<Dictionary<string, string>>());
-                }
-                catch
-                {
-                    throw new Exception($"Failed in loading {filePath}!");
-                }
+                string json = File.ReadAllText(filePath);
+                var temp = JSON.Load(json);
+                Entries = JSON.MakeInto<Dictionary<string, string>>(temp);
             }
         }
 

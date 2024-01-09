@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+    <ProjectReference Include="..\ConfigHelperLib\ConfigHelperLib.csproj" />
+    <Reference Include="Colossal.Core">
+      <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Cities Skylines II\Cities2_Data\Managed\Colossal.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
+  
 
 </Project>

@@ -12,15 +12,12 @@
     <AssemblyName>LanguageManager</AssemblyName>
     <Description>LanguageManager</Description>
     <RootNamespace>LanguageManager</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>0.1.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup>
     <Cities2_Location>D:\SteamLibrary\steamapps\common\Cities Skylines II</Cities2_Location>
-    <CSUL_location>D:\GameTools\Cities Skylines II\CSUL</CSUL_location>
-    <CSUL_Bep5PLayer>Bep5Dev</CSUL_Bep5PLayer>
-    <CSUL_Bep6PLayer>Bep6Dev</CSUL_Bep6PLayer>
     <BepInExVersion>5</BepInExVersion>
   </PropertyGroup>
 
@@ -31,25 +28,20 @@
     <PackageReference Include="UnityEngine.Modules" Version="2022.3.7" IncludeAssets="compile" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(BepInExVersion)' == '6'">
+    <PackageReference Include="BepInEx.Unity.Mono" Version="6.0.0-be.*" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(BepInExVersion)' == '5'">
     <PackageReference Include="BepInEx.Core" Version="5.*" IncludeAssets="compile" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(BepInExVersion)' == '6'">
-    <PackageReference Include="BepInEx.Unity.Mono" Version="6.0.0-be.*" />
-  </ItemGroup>
-  
-  <PropertyGroup Condition="'$(BepInExVersion)' == '5'">
-    <CopyPath>$(CSUL_location)\ModPlayers\$(CSUL_Bep5PLayer)\Mods</CopyPath>
-  </PropertyGroup>
-
   <PropertyGroup Condition="'$(BepInExVersion)' == '6'">
     <DefineConstants>$(DefineConstants);BEPINEX_V6</DefineConstants>
-    <CopyPath>$(CSUL_location)\ModPlayers\$(CSUL_Bep6PLayer)\Mods</CopyPath>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if not exist &quot;$(CopyPath)\$(ProjectName)&quot; mkdir &quot;$(CopyPath)\$(ProjectName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)0Harmony.dll&quot; &quot;$(CopyPath)\$(ProjectName)\0Harmony.dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(CopyPath)\$(ProjectName)\$(ProjectName)_B$(BepInExVersion).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName)Lib.dll&quot; &quot;$(CopyPath)\$(ProjectName)\$(ProjectName)Lib.dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)ConfigHelperLib.dll&quot; &quot;$(CopyPath)\$(ProjectName)\ConfigHelperLib.dll&quot;" />
+    <Exec Command="if not exist &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)&quot; mkdir &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)0Harmony.dll&quot; &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)\0Harmony.dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)\$(ProjectName)_B$(BepInExVersion).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$(ProjectName)Lib.dll&quot; &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)\$(ProjectName)Lib.dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)$ConfigHelperLib.dll&quot; &quot;$(Cities2_Location)\BepInEx\plugins\$(ProjectName)\ConfigHelperLib.dll&quot;" />
   </Target>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
